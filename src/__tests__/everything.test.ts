@@ -6,7 +6,7 @@ import {
   HeadlineParameters,
 } from "../@types/INewsCient";
 
-const mockHeadlines: Article[] = [
+const mockArticles: Article[] = [
   {
     author: "Test Author 1",
     publishedAt: "2022-08-13T16:42:31Z",
@@ -39,20 +39,20 @@ class MockNewsClient implements INewsClient {
   apiKey: string;
 
   everything(_: EverythingParameters) {
-    return Promise.resolve([]);
+    return Promise.resolve(mockArticles);
   }
 
   headlines(_: HeadlineParameters) {
-    return Promise.resolve(mockHeadlines);
+    return Promise.resolve([]);
   }
 }
 
-test("headlines query returns headlines from the news api", async () => {
+test("everything query returns everything from the news api", async () => {
   const newsClient = new MockNewsClient();
   const server = createServer(newsClient);
 
   const result = await server.executeOperation({
-    query: `query Headlines {headlines{author
+    query: `query Everything {everything{author
       publishedAt
       source {
         id
@@ -65,5 +65,5 @@ test("headlines query returns headlines from the news api", async () => {
       description}}`,
   });
 
-  expect(result.data).toEqual({ headlines: mockHeadlines });
+  expect(result.data).toEqual({ everything: mockArticles });
 });

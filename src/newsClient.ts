@@ -1,5 +1,9 @@
 import axios from "axios";
-import { INewsClient, HeadlineParameters } from "./@types/INewsCient";
+import {
+  INewsClient,
+  EverythingParameters,
+  HeadlineParameters,
+} from "./@types/INewsCient";
 
 export default class News implements INewsClient {
   apiKey: string;
@@ -22,6 +26,12 @@ export default class News implements INewsClient {
       console.error(err);
       throw err;
     }
+  }
+
+  async everything(args: EverythingParameters) {
+    const result = await this.doRequest("everything", args);
+
+    return result.articles;
   }
 
   async headlines({

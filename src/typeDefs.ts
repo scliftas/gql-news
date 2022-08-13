@@ -17,6 +17,12 @@ const typeDefs = gql`
     urlToImage: String
   }
 
+  enum SearchIn {
+    title
+    description
+    content
+  }
+
   enum Country {
     ae
     ar
@@ -85,6 +91,19 @@ const typeDefs = gql`
   }
 
   type Query {
+    everything(
+      q: String
+      searchIn: SearchIn
+      sources: String
+      domains: String
+      excludeDomains: String
+      from: String
+      to: String
+      language: String
+      sortBy: String
+      pageSize: Int
+      page: Int
+    ): [Article!]!
     headlines(
       country: Country
       category: Category

@@ -14,6 +14,23 @@ export type Article = {
   urlToImage?: string | null;
 };
 
+export type SearchIn = "title" | "description" | "content";
+
+export type EverythingParameters = {
+  q?: string | null;
+  searchIn?: SearchIn | null;
+  sources?: string | null;
+  domains?: string | null;
+  excludeDomains?: string | null;
+  from?: string | null;
+  to?: string | null;
+  language?: string | null;
+  sortBy?: string | null;
+  pageSize?: number | null;
+  page?: number | null;
+  
+};
+
 export type HeadlineParameters = {
   keyword?: string;
   country?: string;
@@ -27,5 +44,6 @@ export type HeadlineParameters = {
 
 export interface INewsClient {
   apiKey: string;
+  everything: (args: EverythingParameters) => Promise<Article[]>;
   headlines(args: HeadlineParameters): Promise<Article[]>;
 }
